@@ -1,14 +1,58 @@
 import React, { useState } from "react";
-import { Header } from "../components/ui";
+import { Header, Icons } from "../components/ui";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const CreateRepository = () => {
   const [repoName, setRepoName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
-  
-  const handleSubmit = (e: React.FormEvent) => {
+  const { username } = useParams();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Aquí iría la lógica para crear el repositorio y subir el archivo
-    console.log("Creando repositorio:", repoName, "Archivo:", files);
+    setIsLoading(true);
+
+    const data = {
+      data: {
+        name: repoName,
+        userId: username,
+      },
+    };
+
+    try {
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(data));
+
+      console.log(files);
+
+      if (Array.isArray(files) && files.length > 0) {
+        files.forEach((file) => {
+          formData.append("files", file);
+        });
+      } else {
+        console.log("No files selected");
+        // Puedes manejar este caso según tus necesidades
+      }
+
+      const response = await axios.post("http://localhost:3002/api/repository", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error al crear el repositorio:", error);
+      setIsLoading(false);
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFiles(Array.from(e.target.files));
+    }
   };
 
   return (
@@ -53,22 +97,18 @@ const CreateRepository = () => {
                 id="file-upload"
                 className="w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 multiple
-                onChange={(e) => {
-                  if (e.target.files && e.target.files.length > 0) {
-                    setFiles(Array.from(e.target.files));
-                  } else {
-                    setFiles([]);
-                  }
-                }}
+                onChange={handleFileChange}
               />
             </div>
 
             <div className="pt-5">
               <button
                 type="submit"
-                className="w-full sm:w-auto px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                disabled={isLoading}
               >
-                Create repository
+                {isLoading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
+                Log In
               </button>
             </div>
           </form>

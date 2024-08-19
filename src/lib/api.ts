@@ -1,7 +1,6 @@
 import axios from "axios";
 
 export const githubCloneApi = axios.create({
-  //   baseURL: "https://sadieapi.onrender.com/",
   baseURL: "http://localhost:3002/",
   headers: {
     "Content-Type": "application/json",
@@ -10,3 +9,16 @@ export const githubCloneApi = axios.create({
     Expires: "0",
   },
 });
+
+// // Interceptor para agregar encabezados de CORS
+// githubCloneApi.interceptors.request.use(
+//   (config) => {
+//     config.headers["Access-Control-Allow-Origin"] = "*";
+//     config.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS";
+//     config.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization";
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   }
+// );

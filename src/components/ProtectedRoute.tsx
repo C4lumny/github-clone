@@ -5,7 +5,7 @@ interface ProtectedRouteProps {
   redirectPath?: string;
 }
 
-const ProtectedRoute = ({ isAuthenticated, redirectPath = "/login" }: ProtectedRouteProps) => {
+const ProtectedRoute = ({ isAuthenticated, redirectPath = "/" }: ProtectedRouteProps) => {
   if (!isAuthenticated) {
     return <Navigate to={redirectPath} replace />;
   }
