@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const githubCloneApi = axios.create({
-  baseURL: "http://localhost:3002/",
+  baseURL: "https://github-clone-api-p0bi.onrender.com/",
   headers: {
     "Content-Type": "application/json",
     "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",

@@ -35,7 +35,7 @@ const CreateRepository = () => {
         // Puedes manejar este caso según tus necesidades
       }
 
-      const response = await axios.post("http://localhost:3002/api/repository", formData, {
+      const response = await axios.post("https://github-clone-api-p0bi.onrender.com/api/repository", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

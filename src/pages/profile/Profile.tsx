@@ -14,7 +14,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const { apiData } = await apiRequest(null, `http://localhost:3002/api/repository/${username}`, "get");
+      const { apiData } = await apiRequest(null, `https://github-clone-api-p0bi.onrender.com/api/repository/${username}`, "get");
       setRepositories(apiData.data.folders);
       setIsLoading(false);
     };
@@ -33,7 +33,7 @@ const ProfilePage = () => {
     };
 
     try {
-      const { apiData } = await apiRequest(data, "http://localhost:3002/api/repository/", "delete");
+      const { apiData } = await apiRequest(data, "https://github-clone-api-p0bi.onrender.com/api/repository/", "delete");
       console.log("apiData", apiData);
       setRepositories(repositories.filter((repo) => repo.name !== repoName));
     } catch (error) {
